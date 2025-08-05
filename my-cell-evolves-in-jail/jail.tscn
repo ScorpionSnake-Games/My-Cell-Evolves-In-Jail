@@ -1,0 +1,138 @@
+[gd_scene load_steps=24 format=3 uid="uid://c1eieqrob0vae"]
+
+[ext_resource type="Script" uid="uid://cq8qyn4gvd8lf" path="res://camera.gd" id="1_7ftlv"]
+[ext_resource type="Script" uid="uid://cjunk2e1alqn7" path="res://cell.gd" id="1_hrfcq"]
+[ext_resource type="Script" uid="uid://bm3oguujvifl6" path="res://showgene.gd" id="2_mscuj"]
+[ext_resource type="Script" uid="uid://b2xv2tctxcq7u" path="res://cell_info_dictionary.gd" id="3_e24cm"]
+[ext_resource type="Script" uid="uid://cfjkj26d1x1g6" path="res://clicked.gd" id="3_mvjx8"]
+[ext_resource type="Texture2D" uid="uid://77027mavhkn5" path="res://1111.png" id="4_spct2"]
+[ext_resource type="Script" uid="uid://bdaetw0iceesk" path="res://energyball.gd" id="5_44hao"]
+[ext_resource type="Script" uid="uid://c4xbcql7kksqr" path="res://pause.gd" id="7_453qh"]
+[ext_resource type="Script" uid="uid://cbhwg1g08qqdt" path="res://image.gd" id="7_spct2"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_spct2"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_u71g5"]
+diffuse_texture = SubResource("ImageTexture_spct2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44hao"]
+albedo_color = Color(0.412152, 0.412152, 0.412152, 1)
+metallic = 1.0
+metallic_texture = SubResource("CanvasTexture_u71g5")
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_l4dwn"]
+material = SubResource("StandardMaterial3D_44hao")
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hrfcq"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mscuj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u71g5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ln5ti"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_fxyao"]
+material = SubResource("StandardMaterial3D_ln5ti")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvjx8"]
+albedo_color = Color(0, 0.819608, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_44hao"]
+material = SubResource("StandardMaterial3D_mvjx8")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_spct2"]
+radius = 0.1
+
+[sub_resource type="Environment" id="Environment_spct2"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_u71g5"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.000375986, 3.67011, -0.0049355)
+script = ExtResource("1_7ftlv")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_l4dwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_hrfcq")
+
+[node name="Cell" type="CharacterBody3D" parent="."]
+process_physics_priority = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25481, 0)
+script = ExtResource("1_hrfcq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cell"]
+shape = SubResource("SphereShape3D_mscuj")
+script = ExtResource("3_mvjx8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cell"]
+material_override = SubResource("StandardMaterial3D_u71g5")
+mesh = SubResource("SphereMesh_fxyao")
+
+[node name="CellInfoDictionary" type="Label" parent="Cell"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_e24cm")
+
+[node name="Image" type="Sprite3D" parent="Cell"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.628434, 0)
+billboard = 1
+texture = ExtResource("4_spct2")
+script = ExtResource("7_spct2")
+
+[node name="Name" type="Label3D" parent="Cell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.706852, 0)
+billboard = 1
+text = "Hell"
+script = ExtResource("2_mscuj")
+
+[node name="Energy" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 9.43533, 1.62852, 0)
+script = ExtResource("5_44hao")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Energy"]
+mesh = SubResource("SphereMesh_44hao")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Energy"]
+shape = SubResource("SphereShape3D_spct2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseButton" type="Button" parent="CanvasLayer"]
+offset_right = 19.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 64
+text = "⏸"
+script = ExtResource("7_453qh")
+
+[node name="RightPanel" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -552.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/RightPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_spct2")
+camera_attributes = SubResource("CameraAttributesPractical_u71g5")
